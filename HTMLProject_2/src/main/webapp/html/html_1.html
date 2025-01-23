@@ -1,0 +1,112 @@
+<!-- 
+	ul : 순서가 없는 태그 => 이미지/메뉴
+		
+	ol : 순서가 있는 태그
+		동반하는 태그
+		<ol>
+		 |
+		<li> => 실제 데이터
+	dl : datalist => 데이터 목록 출력
+	 
+	 <dl>
+	  |
+	 <dt> 제목을 설정
+	 <dd> 설명 
+	 
+	 <dl>
+	 	<dt>영화명</dt>
+	 	<dd>검은 수녀들</dd>
+	 </dl> 
+	 
+	 목록 출력 => 구분자가 거의 없다 (크롤링)
+	
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<style>
+ul#menu{
+	list-style:none;
+	display:inline;
+}
+ul#menu li{
+	display: inline;
+}
+a{
+	color: black;
+	text-decoration:none;
+}
+a:hover{
+	color : green;
+	
+	text-decoration: underline;
+}
+</style>
+
+</head>
+<body>
+	<ul>
+		<li>자바</li>
+		<li>오라클</li>
+		<li>HTML/CSS</li>
+		<li>JavaScript</li>
+		<li>JSP</li>
+	</ul>
+	<h3>OL태그</h3>
+	<ol>
+		<li>자바</li>
+		<li>오라클</li>
+		<li>HTML/CSS</li>
+		<li>JavaScript</li>
+		<li>JSP</li>
+	</ol>
+	<h3>UL 사용처</h3>
+	<ul id="menu">
+		<li><a href="#">홈</a></li>
+		<li><a href="#">회원</a></li>
+		<li><a href="#">여행</a></li>
+		<li><a href="#">레시피</a></li>
+		<li><a href="#">스토어</a></li>
+		<li><a href="#">추천</a></li>
+		<li><a href="#">커뮤니티</a></li>
+	</ul>
+	<h3>OL 사용처 (중첩 태그)</h3>
+	<ol style="list-style: upper-alpha">
+		<li>
+			<b>다음중 과일이 아닌 것은?</b><!-- bold 강조 -->
+			<ol>
+				<li>배</li>
+				<li>수박</li>
+				<li>보쌈</li>
+				<li>사과</li>
+			</ol>
+		</li>
+	</ol>
+	<h3>DL 사용법</h3>
+	<dl>
+		<dt>Java</dt>
+		<dd>브라우저/오라클 연결해서 데이터를 관리</dd>
+		
+		<dt>Oracle</dt>
+		<dd>사용자가 공통으로 사용하는 데이터를 저장하는 공간</dd>
+		
+		<dt>HTML/CSS</dt>
+		<dd>브라우저에서 화면 UI(브라우저에서만 실행)</dd>
+		
+		<dt>자바스크립트</dt>
+		<dd>브라우저안에서 사용자 요청처리(이벤트 처리)</dd>
+		
+		<dt>Spring</dt>
+		<dd>통합 라이브러리</dd>
+		
+		<dt>AWS</dt>
+		<dd>운영체제를 빌려서 사이트 배포(PaaS)</dd>
+		
+		<dt>WEB 2.0 / WEB 3.0</dt>
+		<dd>AJAX(서제스트) , VUEJS, REACTJS(데이터 관리)</dd>
+	</dl>
+</body>
+</html>
