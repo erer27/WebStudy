@@ -15,6 +15,71 @@ import java.util.*;
 
 // tomcat => 9버전 => javax.servlet.*
 // tomcat => 10버전 => jakarta.servlet.*
+/*
+ * 		servlet : 동적페이지 / html : 정적페이지
+ * 								   -------
+ * 									데이터 변경이 안된다
+ * 				   | 한개의 파일에서 데이터 변경이 가능
+ * 				   | servlet : 서버에서 실행하는 가벼운 프로그램
+ * 						단점 : 소스 변경시마다 컴파일을 해서 출력
+ * 					=> 컴파일없이 실행 => JSP
+ * 					장점 : 보안이 뛰어나다, 소스를 감출 수 있다
+ * 						  JSP : 보안 취약, 소스를 감출 수 없다
+ * 					=> servlet => java => class파일만 전송
+ * 					=> jsp => 통으로 전송 (View)
+ * 					=> servlet => spring은 라이브러리가 서블릿으로 되어있다
+ * 		실행 과정
+ * 		------
+ * 	
+ * 		  class ServletClass extends HttpServlet
+ * 		  {
+ * 				public void init()
+ * 				{
+ * 					초기화 담당 => 변수에 대한 초기화
+ * 				}
+ * 				public void destroy()
+ * 				{
+ * 					화면 변경 / 새로고침 => 메모리 회수
+ * 					=> 장점 : 바로 메모리 해제
+ * 				}
+ * 				--------------------------
+ * 				사용자 요청에 대한 처리
+ * 				public void doGet()
+ * 				{
+ * 					// 사용자 요청 => GET
+ * 					// => 단순한 검색 (page,검색) => 화면 ui
+ * 					// DEFAULT
+ * 					// <a> location.href=""
+ * 					// sendRedirect()
+ * 				}
+ * 				public void doPost()
+ * 				{
+ * 					// 사용자 요청 => POST
+ * 					// 처리용 => <form>, ajax, vuejs => 지정이 가능
+ * 				}
+ * 				// => GET/POST를 동시에 처리 => MVC구조 (get/post) 같은 처리 
+ * 				public void service()
+ * 				{
+ * 				}
+ * 				--------------------------
+ * 				=> _jspInit() => _jspDestroy(), _jspService()
+ * 		  }
+ * 										servlet/jsp엔진
+ * 		  브라우저 (사용자 요청) ==> 웹서버 ==> 웹컨테이너
+ * 			=> 주소창				HTML/XML	톰캣
+ * 											 |
+ * 											요청한 JSP/Servlet을 찾아서 컴파일
+ * 											.class
+ * 											  |
+ * 											인터프리터를 한줄씩 번역
+ * 											  |
+ * 											메모리에 HTML을 저장
+ * 											  |
+ * 											브라우저에서 한줄씩 출력
+ * 					
+ * 
+ */
+// 서블릿을 찾는 URL주소 => 톰캣이 해당되는 서블릿을 찾아서 실행
 @WebServlet("/BoardList")
 public class BoardList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -79,9 +144,10 @@ public class BoardList extends HttpServlet {
 		// 출력 위치
 		for(BoardVO vo:list)
 		{
+			// html => 화면 이동 <a>:화면 이동 <form>: 데이터전송+화면이동
 			out.println("<tr>");
 			out.println("<td width=10% align=center>"+vo.getNo()+"</td>");
-			out.println("<td width=45%>"+vo.getSubject());
+			out.println("<td width=45%><a href=BoardDetail?no="+vo.getNo()+">"+vo.getSubject()+"</a>");
 			out.println("&nbsp;");
 			if(today.equals(vo.getDbday()))
 			{
@@ -104,11 +170,11 @@ public class BoardList extends HttpServlet {
 		out.println("</select>");
 		out.println("<input type=text size=15>");
 		out.println("<input type=button value=검색>");
-		out.println("</td");
 		out.println("<td align=right>");
 		out.println("<a href=BoardList?page="+(curpage>1?curpage-1:curpage)+">이전</a>");
 		out.println(curpage+" page / "+totalpage+" pages");
 		out.println("<a href=BoardList?page="+(curpage<totalpage?curpage+1:curpage)+">다음</a>");
+		out.println("</td");
 		out.println("</td");
 		out.println("</tr>");
 		out.println("</table>");
