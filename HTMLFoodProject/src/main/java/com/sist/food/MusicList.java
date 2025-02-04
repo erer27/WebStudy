@@ -45,14 +45,6 @@ public class MusicList extends HttpServlet {
 		out.println("<body>");
 		out.println("<div class=container>");
 		out.println("<div class=row>");
-		/*
-		 * 		response는 기능을 한 개 수행이 가능
-		 * 		----------------------------
-		 * 		1. 쿠키 전송 => Detail이동 => HTML전송
-		 * 		2. HTML전송 
-		 * 		
-		 * 
-		 */
 		for(MusicVO vo:list)
 		{
 			out.println("<div class=\"col-md-3\">");
@@ -89,6 +81,35 @@ public class MusicList extends HttpServlet {
 			out.println("<li><a href=\"MusicList?page="+(endPage+1)+"\">&gt;</a></li>");
 		}
 		out.println("</ul>");
+		out.println("</div>");
+		out.println("<div class=row>");
+		out.println("<h3>최근 본 음악</h3>");
+		out.println("<hr>");
+		List<MusicVO> cList=new ArrayList<MusicVO>();
+		Cookie[] cookies=request.getCookies();
+		if(cookies!=null)// cookie에 값이 값이 저장된 상태면 
+		{
+			// 키 , 값 => getValue
+			// => getName 
+			// 최신순으로 
+			for(int i=cookies.length-1;i>=0;i--)
+			{
+				if(cookies[i].getName().startsWith("music_"))
+				{
+					String mno=cookies[i].getValue();
+					MusicVO vo=dao.musicCookieData(Integer.parseInt(mno));
+					cList.add(vo);
+				}
+			}
+		}
+		for(int i=0;i<cList.size();i++)
+		{
+			MusicVO cvo=cList.get(i);
+			if(i>8) break;
+			out.println("<a href=MusicDetail?mno="+cvo.getMno()+">");
+			out.println("<img src="+cvo.getPoster()+" style=\"width:100px;height:100px\" class=img-rounded title="+cvo.getTitle()+">");
+			out.println("</a>");
+		}
 		out.println("</div>");
 		out.println("</div>");
 		out.println("</body>");
