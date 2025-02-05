@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="table.css">
+<script type="text/javascript" src="http://code.jquery.com/jquery.js" ></script>
+<script type="text/javascript">
+let i=0;
+$(function(){ //window.onload=function(){} => main
+	$('.dataTr').click(function(){
+		console.log("asdfsadf")
+		if(i==0)
+		{
+			i=1;
+			$('#content').show("slow");
+		}
+		else
+		{
+			i=0;
+			$('#content').hide("slow");
+		}
+	})
+})
+</script>
+</head>
+<body>
+	<table class="table_content" width=700>
+		<tr>
+			<th>번호</th>
+			<th>제목</th>
+			<th>이름</th>
+			<th>작성일</th>
+			<th>조회수</th>
+		</tr>
+		<tr class="dataTr">
+			<td class="text-center">1</td>
+			<td>휘발유까지 오른다”.. 한숨 깊어지는 지역 경제</td>
+			<td class="text-center">홍길동</td>
+			<td class="text-center">2025-02-05</td>
+			<td class="text-center">10</td>
+		</tr>
+		<tr id="content" style="display:none">
+			<td colspan="5" height="200" class="text-left" valign="top">
+			<pre>휘발유와 경유 가격도 인상되면서 교통비 부담도 가중되는 모습입니다. 유류세 인하 폭이 축소되면서 1월 휘발유 가격은 2.4%, 경유도 2.7% 인상됐습니다.
+
+택시와 물류비 인상으로 인해 앞으로 외식·배송비 등 생활 전반의 서비스 요금도 오를 가능성이 크다는 우려가 나오고 있습니다. 도민들은 “하루가 다르게 오르는 물가에 도대체 생활비를 어떻게 감당해야 할지 모르겠다”라는 반응을 보이는 실정입니다.</pre>
+		</tr>
+	</table>
+</body>
+</html>

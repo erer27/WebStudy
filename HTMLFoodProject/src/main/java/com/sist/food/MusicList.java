@@ -97,6 +97,7 @@ public class MusicList extends HttpServlet {
 				if(cookies[i].getName().startsWith("music_"))
 				{
 					String mno=cookies[i].getValue();
+					System.out.println(mno);
 					MusicVO vo=dao.musicCookieData(Integer.parseInt(mno));
 					cList.add(vo);
 				}
