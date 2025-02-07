@@ -37,7 +37,7 @@ public class FoodBeforeDetail extends HttpServlet {
 		// => 서버에 저장 (세션) 
 		// => Map방식 (키,값) => 키는 중복이 불가능 
 		// 상세보기로 이동 => 서버에서 화면 이동 : response.sendRedirect()
-		response.sendRedirect("FoodDetail?fno="+fno);
+		response.sendRedirect("MainServlet?mode=2&fno="+fno);
 		//       ------------- GET
 		/*
 		 *   사이트 
