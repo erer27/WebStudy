@@ -1,0 +1,87 @@
+<!-- 
+		=> 템플릿을 다운시 화면 분할
+		===================================================
+			<header>
+		===================================================
+			<nav>
+		===================================================
+			<aside> |	<section>
+					|
+					|
+					|
+					|
+					|
+					|
+		====================================================
+			<footer>
+		====================================================
+ -->
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+.container{
+	/* 화면 출력 전체 영역 
+		container / wrapper
+		= bootstrap => 960px (여백)
+	*/
+	width: 800px;
+	height:640px;
+	border: 1px solid red;
+	margin : 0px auto;
+}
+header{
+	width : 800px;
+	height : 100px;
+	background-color : cyan;
+}
+nav{
+	width:800px;
+	height:100px;
+	background-color:yellow;
+}
+aside{
+	width: 200px;
+	height : 340px;
+	background-color: green;
+	float : left;
+}
+section{
+	width : 600px;
+	height : 340px;
+	background-color: pink;
+	float: right;
+}
+footer{
+	width: 800px;
+	height : 100px;
+	background-color: gray;
+	clear:both; /* float 해제 */
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<header>
+			<h3 style="text-align:center">로고</h3>
+		</header>
+		<nav>
+			<h3>메뉴</h3>
+		</nav>
+		<aside>
+			<h3>부메뉴/부가적정보</h3>
+		</aside>
+		<section>
+			<h3>본문</h3>
+		</section>
+		<footer>
+			<h3>회사정보/개인정보 방침/사이트맵</h3>
+		</footer>
+	</div>
+</body>
+</html>
