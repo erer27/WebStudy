@@ -1,4 +1,4 @@
-package com.sist.mybatis;
+package com.sist.vo;
 /*
  * 	public List<EmpVO> getEmpListData()
  * 	{
@@ -8,11 +8,16 @@ package com.sist.mybatis;
  */
 
 import java.io.Reader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.List;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+
+import com.sist.mybatis.EmpVO;
 
 public class EmpDAO {
 	private static SqlSessionFactory ssf;
