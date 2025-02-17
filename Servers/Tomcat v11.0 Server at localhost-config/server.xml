@@ -142,10 +142,8 @@
       
       
       
-      <Context docBase="JSPBasicProject_8" path="/JSPBasicProject_8" reloadable="true" source="org.eclipse.jst.jee.server:JSPBasicProject_8">
-      	<Resource auth="Container" driverClassName="oracle.jdbc.driver.OracleDriver" maxActive="10" maxIdle="8" maxWait="-1" name="jdbc/oracle" password="happy" type="javax.sql.DataSource" url="jdbc:oracle:thin:@localhost:1521:XE" username="hr"/>
-      </Context>
-      </Host>
+      
+      <Context docBase="JSPMiddleProject_2" path="/JSPMiddleProject_2" reloadable="true" source="org.eclipse.jst.jee.server:JSPMiddleProject_2"/></Host>
     </Engine>
   </Service>
 </Server>
