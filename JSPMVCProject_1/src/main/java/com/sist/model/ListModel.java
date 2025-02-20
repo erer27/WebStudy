@@ -1,6 +1,8 @@
 package com.sist.model;
 
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.text.*;
 import java.util.*;
 import com.sist.dao.*;
 import com.sist.vo.*;
@@ -27,6 +29,10 @@ public class ListModel implements Model {
 		request.setAttribute("list", list);
 		request.setAttribute("curpage", curpage);
 		request.setAttribute("totalpage", totalpage);
+		
+		String today=new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		
+		request.setAttribute("today", today);
 		
 		return "board/list.jsp";
 	}
