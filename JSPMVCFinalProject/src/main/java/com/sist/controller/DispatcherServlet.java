@@ -62,7 +62,10 @@ public class DispatcherServlet extends HttpServlet {
 			System.out.println(pack);
 			clsList=com.sist.controller.FileReader.componentScan(file.getPath(), pack);
 			
-		}catch(Exception ex) {}
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			
+		}
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -96,7 +99,7 @@ public class DispatcherServlet extends HttpServlet {
 						{
 							return; // ajax => Model / 자바스크립트 통신
 						}
-						else if(jsp.startsWith("redirec:"))
+						else if(jsp.startsWith("redirect:"))
 						{
 							// sendRedirect => _ok
 							jsp=jsp.substring(jsp.indexOf(":")+1);
@@ -114,6 +117,7 @@ public class DispatcherServlet extends HttpServlet {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 

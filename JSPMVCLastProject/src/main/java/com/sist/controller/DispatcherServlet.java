@@ -100,7 +100,7 @@ public class DispatcherServlet extends HttpServlet {
 						{
 							return; // ajax => Model / 자바스크립트 통신
 						}
-						else if(jsp.startsWith("redirec:"))
+						else if(jsp.startsWith("redirect:"))
 						{
 							// sendRedirect => _ok
 							jsp=jsp.substring(jsp.indexOf(":")+1);

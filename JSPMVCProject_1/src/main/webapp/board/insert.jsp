@@ -15,6 +15,9 @@
 	width: 700px;
 }
 </style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -57,5 +60,18 @@
 			
 		</div>
 	</div>
+	
+<!-- Include stylesheet -->
+
+<!-- Create the editor container -->
+<div id="editor">
+  <p>Hello World!</p>
+  <p>Some initial <strong>bold</strong> text</p>
+  <p><br /></p>
+</div>
+
+<button id="test">test</button>
+<script type="text/javascript" src="board/quilTest.js"></script>
+
 </body>
 </html>
