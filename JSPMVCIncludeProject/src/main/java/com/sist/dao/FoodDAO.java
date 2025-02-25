@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
+import com.sist.vo.EmpVO;
 import com.sist.vo.FoodVO;
 
 public class FoodDAO {
@@ -101,5 +102,13 @@ public class FoodDAO {
 		FoodVO vo=session.selectOne("foodDetailData",fno);
 		session.close();
 		return vo;
+	}
+	
+	public static List<EmpVO> empListData()
+	{
+		SqlSession session=ssf.openSession();
+		List<EmpVO> list=session.selectList("empListData");
+		session.close();
+		return list;
 	}
 }

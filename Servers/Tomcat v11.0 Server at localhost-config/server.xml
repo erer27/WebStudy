@@ -143,7 +143,7 @@
       
       
       
-      <Context docBase="JSPMiddleProject_4" path="/JSPMiddleProject_4" reloadable="true" source="org.eclipse.jst.jee.server:JSPMiddleProject_4"/><Context docBase="JSPMVCProject_1" path="/JSPMVCProject_1" reloadable="true" source="org.eclipse.jst.jee.server:JSPMVCProject_1"/></Host>
+      <Context docBase="JSPFrontProject_3" path="/JSPFrontProject_3" reloadable="true" source="org.eclipse.jst.jee.server:JSPFrontProject_3"/></Host>
     </Engine>
   </Service>
 </Server>

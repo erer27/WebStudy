@@ -15,11 +15,29 @@ const options = {
 	placeholder: 'Compose an epic...',
 	theme: 'snow'
 };
+
+
 const quill = new Quill('#editor', options);
-	quill.getModule('toolbar').addHandler('image', function () {
-	      selectLocalImage();
-});
 
 $("#test").click(()=>{console.log("buttonnnnn")})
 
-quill.on('text-change', ()=>{quill.i});
+quill.on('text-change', function(delta, oldDelta, source) {
+  if (source === 'user') {
+    // Quill 문서의 모든 내용 가져오기
+    var content = quill.root.innerHTML;
+    
+    // 이미지 태그가 포함된 부분만 추출
+    var imageTags = content.match(/<img[^>]*>/g);
+    
+    if (imageTags) {
+      //console.log('추가된 이미지 태그:', imageTags);
+	  console.log(delta);
+	  console.log(oldDelta);
+    }
+  }
+});
+
+
+
+
+

@@ -71,7 +71,7 @@
 </div>
 
 <button id="test">test</button>
-<script type="text/javascript" src="board/quilTest.js"></script>
+<script type="text/javascript" src="board/quilTest.js?v=<%=System.currentTimeMillis() %>"></script>
 
 </body>
 </html>

@@ -24,7 +24,7 @@ public class FileReader {
 					System.out.println(packname);
 				}
 			}
-		}catch(Exception ex) {}
+		}catch(Exception ex) {ex.printStackTrace();}
 		return list;
 	}
 }
