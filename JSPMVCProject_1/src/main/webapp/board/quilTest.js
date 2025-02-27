@@ -2,10 +2,9 @@ const toolbarOptions = [
 	[{ 'header': [1, 2, 3, 4, 5, 6, false] }],
     ['bold', 'italic', 'underline', 'strike'],
     [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-
     [{ 'color': [] }, { 'background': [] }],
-    ['image', 'link'],
-
+	[{'align':[]}],
+    ['image', 'link']
 ];
 const options = {
 	debug: false,
@@ -23,44 +22,32 @@ $("#test").click(()=>{
 	$('#img-0').css('border','10px solid red')
 	})
 
+let imageTags=[];
+let imageId=0;
 quill.on('text-change', function(delta, oldDelta, source) {
-  /*if (source === 'user') {
-    // Quill 문서의 모든 내용 가져오기
-    var content = quill.root.innerHTML;
-    
-    // 이미지 태그가 포함된 부분만 추출
-    var imageTags = content.match(/<img[^>]*>/g);
-    
-    if (imageTags) {
-      //console.log('추가된 이미지 태그:', imageTags);
-	  console.log(delta);
-	  console.log(oldDelta);
-    }
-  }*/
-  //const imageTags = Array.from(quill.root.querySelectorAll("*")).filter((child)=>{child.nodeName==='IMG'})
-  //console.log(quill.root.querySelectorAll("*").forEach((child)=>{console.log(child.nodeName==='IMG')}))
-  let imageId=0;
-  
-  //quill에 추가된 요소중에 이미지만 리스트에 모으고 아이디를 추가하는 코드
-  const imageTags = Array.from(quill.root.querySelectorAll("*"))
+
+	//quill에 추가된 요소중에 이미지만 리스트에 모으고 아이디를 추가하는 코드
+	const changedImage = Array.from(quill.root.querySelectorAll("*"))
     				.filter((child)=>{
-  						return child.nodeName==='IMG'?true:false
-  					}).map((child)=>{
-						child.id='img-'+imageId++;
-						return child
-					})
-
-  console.log(imageTags)
-  console.log(quill.root)
+						if(child.nodeName==='IMG'){
+							child.id=child.id.length===0?'img-'+imageId++:child.id;
+							return true
+						}
+  						return false
+  					})
+	//imageTags 리스트 맨 마지막 요소가 방금 추가된 이미지라고 가정하고 서버랑 통신해서 src 바꾸거나 하기
   
+	if(imageTags.length>changedImage.length){//방금 변화가 이미지 삭제일 경우
+	
+		const deletedImages=imageTags.filter((child)=>{
+	  		return !changedImage.includes(child)
+	  	})
+	 	console.log("deletedImage",deletedImages)
+	}
+  
+	imageTags=changedImage
+	console.log("imageTags",imageTags)
 });
-
-const stringToHTML = function (str) {
-  const dom = document.createElement("div");
-  dom.innerHTML = str;
-  return dom;
-};
-//최근에 삭제된 요소가 이미지인 경우를 포착
 
 
 
