@@ -18,6 +18,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -71,7 +72,11 @@
 </div>
 
 <button id="test">test</button>
-<script type="text/javascript" src="board/quilTest.js?v=<%=System.currentTimeMillis() %>"></script>
+
+<form id="form">
+	<input type="file" id="imageFile">
+</form>
+<script type="text/javascript" src="quilTest.js?v=<%=System.currentTimeMillis() %>"></script>
 
 </body>
 </html>
