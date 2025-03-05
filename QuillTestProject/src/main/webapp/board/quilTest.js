@@ -22,72 +22,48 @@ $("#test").click(()=>{
 	console.log(file)
 	uploadImage(file)
 	//console.log($("#form"))
+	//axiosTest();
 })
-const convertImage =(id) =>{
+const axiosTest = () =>{
 	axios.post('http://localhost/QuillTestProject/board/image_convert.do',
-		{
-			params:{image:"test blank"},
-		},
-		{
-			responseType: 'blob',
-		}).then((res)=>{
-		console.log(res)
-		$(`#${id}`).attr('src','http://localhost/QuillTestProject/board/image_convert.do')
+			{
+				params:{image:"test blank"},
+			}).then((res)=>{
+			console.log(res)
 	})
 }
-const uploadImage = (file) =>{//base64로 변환 후 axios로 formData전송해서 서버에 저장하고 url 반환하는 기능 만들기
+
+const imageUploadAndConvertedImageApply = (id) => {//이미지 업로드하고 가져오기
+	const file = convertBase64ImgToImgFile($(`#${id}`).attr("src"),`${id}.png`)
+	uploadImage(file,id)
+}
+
+const uploadImage = (file,id) =>{//이미지를 서버에 업로드
 	const formData = new FormData();
 	formData.append("userfile", file);
-	console.log(formData);
-	/*axios.post(`/upload_multer_multi`, formData, 
+
+	axios.post(`http://localhost/QuillTestProject/board/image_convert.do`, formData, 
 	{
 		headers: {
 	   		"Content-Type": "multipart/form-data",
 	    },
-	});*/
-	formData.forEach(function(value, key) {//form데이터 console.log로 출력하면 값 안나옴. 순회해서 출력해야됨
+	}).then(
+		(res)=>{
+			console.log(res)
+			const serverURL = 'http://localhost/QuillTestProject/board/get_converted_image.do'
+			const imageURL = serverURL + "?image=" + res.data.imageName
+			console.log(imageURL)
+			$(`#${id}`).attr('src',imageURL)
+		}
+	
+	);
+	
+	/*formData.forEach(function(value, key) {//form데이터 console.log로 출력하면 값 안나옴. 순회해서 출력해야됨
 	    console.log(key + ': ' + value.size);
-	});
+	});*/
 }
 
-	
-const imageOnclick = (e) =>{
-	console.log(e.target)
-}
-let imageTags=[];
-let imageId=0;//있는 문서 수정하는 경우일 때는 미리 이미지 리스트 에서 마지막 이미지의 아이디 가져와서 설정하기
-quill.on('text-change', function() {
-
-	
-	
-	//quill에 추가된 요소중에 이미지만 리스트에 모으고 아이디를 추가하는 코드
-	const changedImage = Array.from(quill.root.querySelectorAll("*"))
-		    				.filter((child)=>{
-								if(child.nodeName==='IMG'){
-									if(child.id.length===0){
-										child.id='img-'+imageId++;
-										//convertImage(child.id)
-										//console.log(convertBase64ImgToImgFile(child.src,child.id));
-									}
-									return true
-								}
-		  						return false
-							})
-	//imageTags 리스트 맨 마지막 요소가 방금 추가된 이미지라고 가정하고 서버랑 통신해서 src 바꾸거나 하기
-  
-	if(imageTags.length>changedImage.length){//방금 변화가 이미지 삭제일 경우
-	
-		const deletedImages=imageTags.filter((child)=>{
-	  		return !changedImage.includes(child)
-	  	})
-	 	console.log("deletedImage",deletedImages)
-	}
-  
-	imageTags=changedImage
-	console.log("imageTags",imageTags)
-});
-
-const convertBase64ImgToImgFile = (data, fileName) => {
+const convertBase64ImgToImgFile = (data, fileName) => {//base64이미지를 이미지파일로 변경
 	const arr = data.split(',') // arr = [data:image/jpg;base64 , /9j/4AAQSkZJRgABAQAAAQABA ...]
 	const [mime, binaryData] = [arr[0].match(/:(.*?);/)[1], atob(arr[1])] // atob는 base64 data를 decode한다
 	// mime = image/jpg
@@ -102,4 +78,41 @@ const convertBase64ImgToImgFile = (data, fileName) => {
 	}
 	return new File([unit8Array], fileName, { type: mime })
 }
+	
+const imageOnclick = (e) =>{
+	console.log(e.target)
+}
+
+let imageTags=[];
+let imageId=0;//있는 문서 수정하는 경우일 때는 미리 이미지 리스트 에서 마지막 이미지의 아이디 가져와서 설정하기
+quill.on('text-change', function() {
+
+	
+	
+	//quill에 추가된 요소중에 이미지만 리스트에 모으고 아이디를 추가하는 코드
+	const changedImage = Array.from(quill.root.querySelectorAll("*"))
+		    				.filter((child)=>{
+								if(child.nodeName==='IMG'){
+									if(child.id.length===0){
+										child.id='img-'+imageId++;
+										imageUploadAndConvertedImageApply(child.id);
+									}
+									return true
+								}
+		  						return false
+							})
+  
+	if(imageTags.length>changedImage.length){//방금 변화가 이미지 삭제일 경우
+	
+		const deletedImages=imageTags.filter((child)=>{
+	  		return !changedImage.includes(child)
+	  	})
+	 	console.log("deletedImage",deletedImages)
+	}
+  
+	imageTags=changedImage
+	console.log("imageTags",imageTags)
+});
+
+
 

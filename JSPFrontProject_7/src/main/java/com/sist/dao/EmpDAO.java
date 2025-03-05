@@ -42,4 +42,32 @@ public class EmpDAO {
 		session.close();
 		return list;
 	}
+	/*
+	 * 
+	 * 
+	 */
+	public static List<EmpVO> empDeptJoinData()
+	{
+		SqlSession session=ssf.openSession();
+		List<EmpVO> list=session.selectList("empDeptJoinData");
+		session.close();
+		return list;
+	}
+	/*
+	 * <select id="empDeptSubqueryData" resultMap="empMap">
+		SELECT empno, ename,job,
+			(SELECT dname FROM dept WHERE deptno=emp.deptno) as dname,
+			(SELECT loc FROM dept WHERE deptno=emp.deptno) as dname,
+			(SELECT grade FROM salgrade WHERE emp.sal BETWEEN loasal AND hisal) as grade,
+		FROM emp
+	</select>
+	 */
+	
+	public static List<EmpVO> empDeptSubqueryData()
+	{
+		SqlSession session=ssf.openSession();
+		List<EmpVO> list=session.selectList("empDeptSubqueryData");
+		session.close();
+		return list;
+	}
 }
