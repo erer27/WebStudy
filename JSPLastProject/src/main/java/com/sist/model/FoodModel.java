@@ -9,6 +9,7 @@ import com.sist.controller.RequestMapping;
 import com.sist.dao.FoodDAO;
 import com.sist.vo.FoodVO;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 // JSP (디자인) => Model => DAO => Model => JSP
@@ -42,6 +43,39 @@ public class FoodModel {
 		request.setAttribute("endPage", endPage);
 		
 		request.setAttribute("main_jsp", "../food/food_list.jsp");
+		return "../main/main.jsp";
+	}
+	
+	@RequestMapping("food/food_detail_before.do")
+	public String food_detail_before(HttpServletRequest request, HttpServletResponse response)
+	{
+		String fno=request.getParameter("fno");
+		Cookie cookie=new Cookie("food_"+fno, fno);
+		cookie.setPath("/");
+		cookie.setMaxAge(60*60*24);
+		// 전송
+		response.addCookie(cookie);
+		
+		//화면 이동
+		return "redirect:food_detail.do?fno="+fno;
+	}
+	@RequestMapping("food/food_detail.do")
+	public String food_detail(HttpServletRequest request, HttpServletResponse response)
+	{
+		String fno=request.getParameter("fno");
+		FoodVO vo=FoodDAO.foodDetailData(Integer.parseInt(fno));
+		String addr=vo.getAddress();
+		// 경기 포천시 내촌면 내리 267
+		addr=addr.substring(addr.trim().indexOf(" "));
+		// 포천시 내촌면 내리 267
+		String addr1=addr.trim();
+		addr1=addr1.substring(addr1.trim().indexOf(" "));
+		// 내촌면 내리 267
+		String addr2=addr1.trim();
+		addr2=addr1.substring(0,addr2.indexOf(" ")+1);
+		request.setAttribute("addr", addr2);
+		request.setAttribute("vo", vo);
+		request.setAttribute("main_jsp", "../food/food_detail.jsp");
 		return "../main/main.jsp";
 	}
 }

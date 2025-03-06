@@ -19,7 +19,6 @@ const quill = new Quill('#editor', options);
 
 $("#test").click(()=>{
 	const file = convertBase64ImgToImgFile($("#img-0").attr("src"),"img-0.png")
-	console.log(file)
 	uploadImage(file)
 	//console.log($("#form"))
 	//axiosTest();
@@ -40,6 +39,7 @@ const imageUploadAndConvertedImageApply = (id) => {//이미지 업로드하고 �
 
 const uploadImage = (file,id) =>{//이미지를 서버에 업로드
 	const formData = new FormData();
+	//formData에 문자열도 보낼 수 있게 해서 게시물번호도 전송할 수 있도록 처리
 	formData.append("userfile", file);
 
 	axios.post(`http://localhost/QuillTestProject/board/image_convert.do`, formData, 
@@ -49,10 +49,8 @@ const uploadImage = (file,id) =>{//이미지를 서버에 업로드
 	    },
 	}).then(
 		(res)=>{
-			console.log(res)
 			const serverURL = 'http://localhost/QuillTestProject/board/get_converted_image.do'
 			const imageURL = serverURL + "?image=" + res.data.imageName
-			console.log(imageURL)
 			$(`#${id}`).attr('src',imageURL)
 		}
 	
@@ -61,6 +59,17 @@ const uploadImage = (file,id) =>{//이미지를 서버에 업로드
 	/*formData.forEach(function(value, key) {//form데이터 console.log로 출력하면 값 안나옴. 순회해서 출력해야됨
 	    console.log(key + ': ' + value.size);
 	});*/
+}
+
+const serverImageDelete = (deletedImages) => {
+	const deleteImageNames = deletedImages.map((image)=>{
+		return image.src.split("?image=")[1]
+	}).join()
+	axios.post('http://localhost/QuillTestProject/board/delete_image.do',null,
+		{params:{imageNames:deleteImageNames}}
+		).then((res)=>{
+		console.log(res)
+	})
 }
 
 const convertBase64ImgToImgFile = (data, fileName) => {//base64이미지를 이미지파일로 변경
@@ -101,17 +110,22 @@ quill.on('text-change', function() {
 								}
 		  						return false
 							})
-  
+							
+							
 	if(imageTags.length>changedImage.length){//방금 변화가 이미지 삭제일 경우
-	
+		
+		//이미지는 드래그해서 한번에 여러개 삭제할 수 있으므로 리스트로 처리
 		const deletedImages=imageTags.filter((child)=>{
 	  		return !changedImage.includes(child)
 	  	})
-	 	console.log("deletedImage",deletedImages)
+		
+		
+		//console.log(deletedImages)
+		serverImageDelete(deletedImages)
 	}
   
 	imageTags=changedImage
-	console.log("imageTags",imageTags)
+	//console.log("imageTags",imageTags)
 });
 
 
