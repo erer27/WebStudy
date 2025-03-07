@@ -1,8 +1,12 @@
 package com.sist.model;
 
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import com.sist.controller.Controller;
 import com.sist.controller.RequestMapping;
@@ -14,6 +18,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 // JSP (디자인) => Model => DAO => Model => JSP
 //			   | Controller			|Controller
+
+/*
+ * 				JSP.do
+ * 				 |	
+ * 		DispatcherServlet (Controller)
+ * 				 |
+ *			   (Model)
+ *				 | request
+ *			DispatcherServlet ***
+ *				 | request
+ *				(JSP)
+ */
 @Controller
 public class FoodModel {
 	@RequestMapping("food/food_list.do")
@@ -77,5 +93,76 @@ public class FoodModel {
 		request.setAttribute("vo", vo);
 		request.setAttribute("main_jsp", "../food/food_detail.jsp");
 		return "../main/main.jsp";
+	}
+	
+	@RequestMapping("food/food_find.do")
+	public String recipe_find(HttpServletRequest request, HttpServletResponse response)
+	{
+		
+		request.setAttribute("main_jsp", "../food/food_find.jsp");
+		return "../main/main.jsp";
+	}
+	@RequestMapping("food/food_find_ajax.do")
+	public void recipe_find_ajax(HttpServletRequest request, HttpServletResponse response)
+	{
+		
+		String page=request.getParameter("page");
+		String fd=request.getParameter("fd");
+		String ss=request.getParameter("ss");
+		
+		int curpage=Integer.parseInt(page);
+		Map map=new HashMap();
+		map.put("start", (12*curpage)-11);
+		map.put("end", 12*curpage);
+		map.put("ss", ss);
+		map.put("fd", fd);
+		List<FoodVO> list=FoodDAO.foodFindData(map);
+		int totalpage=FoodDAO.foodFindTotalPage(map);
+		
+		final int BLOCK=10;
+		int startPage=((curpage-1)/BLOCK*BLOCK)+1;
+		int endPage=((curpage-1)/BLOCK*BLOCK)+BLOCK;
+		
+		if(endPage>totalpage)
+			endPage=totalpage;
+		
+		// JSON변경
+		JSONArray arr=new JSONArray();
+		int i=0;
+		// fno,name,poster,score,type,content,theme,phone,address,num
+		for(FoodVO vo:list)
+		{
+			JSONObject obj=new JSONObject();
+			obj.put("fno", vo.getFno());
+			obj.put("name", vo.getName());
+			obj.put("poster", vo.getPoster());
+			obj.put("score", vo.getScore());
+			obj.put("type", vo.getType());
+			obj.put("content", vo.getContent());
+			obj.put("theme", vo.getTheme());
+			obj.put("phone", vo.getPhone());
+			obj.put("address", vo.getAddress());
+			obj.put("likecount", vo.getLikecount());
+			obj.put("replycount", vo.getReplycount());
+			if(i==0)
+			{
+				obj.put("curpage", curpage);
+				obj.put("totalpage", totalpage);
+				obj.put("startPage", startPage);
+				obj.put("endPage", endPage);
+			}
+			
+			arr.add(obj);
+			i++;
+		}
+		
+		// 전송
+		try
+		{
+			response.setContentType("text/plain;charset=UTF-8");
+			PrintWriter out=response.getWriter();
+			out.write(arr.toJSONString());
+		}catch(Exception ex) {}
+		
 	}
 }
