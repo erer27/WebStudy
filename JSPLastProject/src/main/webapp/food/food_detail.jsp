@@ -110,11 +110,14 @@
 									<td>${vo.content }</td>
 								</tr>
 								<tr>
-									<td class="text-right"><a href="#"
-										class="btn btn-sm btn-success">좋아요</a> <a href="#"
-										class="btn btn-sm btn-info">찜하기</a> <a href="#"
-										class="btn btn-sm btn-danger">예약하기</a> <a
-										href="../food/list.do" class="btn btn-sm btn-primary">목록</a></td>
+									<td class="text-right">
+									<c:if test="${sessionScope.id!=null }">
+									<a href="#" class="btn btn-sm btn-success">좋아요</a> 
+									<a href="#" class="btn btn-sm btn-info">찜하기</a> 
+									<a href="#" class="btn btn-sm btn-danger">예약하기</a> 
+									</c:if>
+										<a href="javascript:history.back()" class="btn btn-sm btn-primary">목록</a>
+									</td>
 								</tr>
 							</table>
 

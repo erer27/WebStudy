@@ -15,6 +15,7 @@ const options = {
 };
 
 
+
 const quill = new Quill('#editor', options);
 
 $("#test").click(()=>{
@@ -41,7 +42,7 @@ const uploadImage = (file,id) =>{//이미지를 서버에 업로드
 	const formData = new FormData();
 	//formData에 문자열도 보낼 수 있게 해서 게시물번호도 전송할 수 있도록 처리
 	formData.append("userfile", file);
-
+	formData.append("postID",1234);
 	axios.post(`http://localhost/QuillTestProject/board/image_convert.do`, formData, 
 	{
 		headers: {
@@ -56,9 +57,9 @@ const uploadImage = (file,id) =>{//이미지를 서버에 업로드
 	
 	);
 	
-	/*formData.forEach(function(value, key) {//form데이터 console.log로 출력하면 값 안나옴. 순회해서 출력해야됨
-	    console.log(key + ': ' + value.size);
-	});*/
+	formData.forEach(function(value, key) {//form데이터 console.log로 출력하면 값 안나옴. 순회해서 출력해야됨
+	    console.log(key + ': ' + value);
+	});
 }
 
 const serverImageDelete = (deletedImages) => {

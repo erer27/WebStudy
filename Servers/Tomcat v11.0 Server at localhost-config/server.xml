@@ -143,7 +143,7 @@
       
       
       
-      <Context docBase="QuillTestProject" path="/QuillTestProject" reloadable="true" source="org.eclipse.jst.jee.server:QuillTestProject"/><Context docBase="JSPLastProject" path="/JSPLastProject" reloadable="true" source="org.eclipse.jst.jee.server:JSPLastProject"/></Host>
+      <Context docBase="QuillTestProject" path="/QuillTestProject" reloadable="true" source="org.eclipse.jst.jee.server:QuillTestProject"/><Context docBase="QuillTestProject" path="/QuillTestProject" reloadable="true" source="org.eclipse.jst.jee.server:QuillTestProject"/></Host>
     </Engine>
   </Service>
 </Server>

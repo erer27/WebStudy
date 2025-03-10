@@ -15,6 +15,8 @@
   	<typeAlias type="com.sist.vo.SeoulVO" alias="SeoulVO"/>
   	<typeAlias type="com.sist.vo.RecipeVO" alias="RecipeVO"/>
   	<typeAlias type="com.sist.vo.ChefVO" alias="ChefVO"/>
+  	<typeAlias type="com.sist.vo.MemberVO" alias="MemberVO"/>
+  	<typeAlias type="com.sist.vo.EmpVO" alias="EmpVO"/>
   </typeAliases>
   
   <environments default="development">
@@ -49,6 +51,8 @@
   	<mapper resource="com/sist/mapper/food-mapper.xml"/>
   	<mapper resource="com/sist/mapper/seoul-mapper.xml"/>
   	<mapper resource="com/sist/mapper/recipe-mapper.xml"/>
+  	<mapper resource="com/sist/mapper/member-mapper.xml"/>
+  	<mapper resource="com/sist/mapper/emp-mapper.xml"/>
   </mappers>
   <!-- 
   		동적 쿼리

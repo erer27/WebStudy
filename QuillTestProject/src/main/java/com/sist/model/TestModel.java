@@ -60,9 +60,10 @@ public class TestModel extends HttpServlet{
                 File uploadDir = new File(uploadPath);
                 if (!uploadDir.exists()) uploadDir.mkdir();
             	
+                String postId ="";//이미지를 가지고 있는 게시물 아이디
             	//request객체를 이 코드 앞에서 사용하고 있으면 여기 리스트에 데이터 안들어감
                 List<FileItem> formItems = upload.parseRequest(request);
-                if (formItems != null && formItems.size() > 0) {
+                if (formItems != null /*&& formItems.size() > 0*/) {
                     for (FileItem item : formItems) {
                         if (!item.isFormField()) {
                             String fileName = new File(item.getName()).getName();
@@ -75,6 +76,10 @@ public class TestModel extends HttpServlet{
                     		obj.put("imageName", fileName);
                     		response.setContentType("application/x-json; charset=utf-8");
                             response.getWriter().print(obj);
+                        }
+                        else
+                        {
+                        	postId = item.getString();
                         }
                     }
                 }
