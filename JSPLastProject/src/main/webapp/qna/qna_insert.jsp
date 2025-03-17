@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body>
 <div class="breadcumb-area" style="background-image: url(../img/bg-img/breadcumb.jpg);">
@@ -13,7 +12,7 @@
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="bradcumb-title text-center">
-                        <h2>관리자 페이지</h2>
+                        <h2>질의하기</h2>
                     </div>
                 </div>
             </div>
@@ -38,15 +37,40 @@
     <!-- ****** Archive Area Start ****** -->
     <section class="archive-area section_padding_80">
         <div class="container">
-            <div class="row">
-             <div class="col-sm-2">
-               <jsp:include page="admin_menu.jsp"></jsp:include>
-             </div>
-             <div class="col-sm-10">
-               <jsp:include page="${admin_jsp }"></jsp:include>
-             </div>
-            </div>
-         </div>
+        	<div class="row" style="width:800px;margin:0px auto">
+        	<form method="post" action="../qna/qna_insert_ok.do">
+        		<table class="table">
+        			
+        			<tr>
+        				<th class="text-center" width=15%>제목</th>
+        				<td width=85%>
+        					<input type=text name=subject id=subject size=50 class="form-control-sm" required>
+        				</td>
+        			</tr>
+        			<tr>
+        				<th class="text-center" width=15%>내용</th>
+        				<td width=85%>
+        					<textarea rows="10" cols="52" name=content required></textarea>
+        				</td>
+        			</tr>
+        			
+        			<tr>
+        				<th class="text-center" width=15%>비밀번호</th>
+        				<td width=85%>
+        					<input type=password name=pwd id=pwd size=20 class="form-control-sm" required>
+        				</td>
+        			</tr>
+        			
+        			<tr>
+        				<td>
+        					<input type=submit value="질의" class="btn-outline-primary btn-sm">
+        				</td>
+        				<td><input type=button value="취소" class="btn-outline-danger btn-sm" onclick="javascript:history.back()"></td>
+        			</tr>
+        		</table>
+        	</form>
+        	</div>
+        </div>
     </section>
 </body>
 </html>

@@ -14,7 +14,7 @@
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="bradcumb-title text-center">
-                        <h2>쉐프 목록</h2>
+                        <h2>&laquo;${chef }&raquo;레시피</h2>
                     </div>
                 </div>
             </div>
@@ -65,7 +65,7 @@
 										</td>
 									</tr>
 									<tr>
-										<td class="text-center">
+										<%-- <td class="text-center">
 											<img src="../recipe/icon/m1.png">&nbsp;${vo.mem_cont1 }
 										</td>
 										<td class="text-center">
@@ -76,7 +76,7 @@
 										</td>
 										<td class="text-center">
 											<img src="../recipe/icon/m4.png">&nbsp;${vo.mem_cont2 }
-										</td>
+										</td> --%>
 									</tr>
 								</table>
 							</c:forEach>
@@ -86,9 +86,9 @@
 				<table>
 					<tr>
 						<td class="text-center">
-							<a href="../recipe/chef_list.do?page=${curpage>1?curpage-1:curpage}" class="btn btn-sm btn-danger">이전</a>
+							<a href="../recipe/chef_make.do?page=${curpage>1?curpage-1:curpage}" class="btn btn-sm btn-danger">이전</a>
 								${curpage } page / ${totalpage } pages
-							<a href="../recipe/chef_list.do?page=${curpage<totalpage?curpage+1:curpage}" class="btn btn-sm btn-danger">다음</a>
+							<a href="../recipe/chef_make.do?page=${curpage<totalpage?curpage+1:curpage}" class="btn btn-sm btn-danger">다음</a>
 						</td>
 					</tr>
 				</table>

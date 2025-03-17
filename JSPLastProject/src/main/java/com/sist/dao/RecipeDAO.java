@@ -149,5 +149,109 @@ public class RecipeDAO {
 		session.close();
 		return total;
 	}
+	/*
+	 * 		1. MyBatis
+	 * 			DML => select, update, delete, insert, sql
+	 * 					  |		
+	 * 					resultMap : JOIN / SUBQUERY
+	 * 			동적 쿼리
+	 * 				=> <trim> : 추가 / 제거 
+	 * 				=> <bind> : 변수형 = 문장이 긴 경우
+	 * 					<bind name="likes" value="'%'||#{ss}||'%'">
+	 * 						#{likes}
+	 * 				=> <foreach> : in연산자 데이터 여러개 (checkbox)
+	 * 					<foreach collection="arr" item="no">
+	 * 										==== Map key
+	 * 					for(int no:arr)
+	 * 					=> 배열/컬렉션
+	 * 						=> 반드시 Map에 채워서 설정
+	 * 				=> <where> => prefixOverrides
+	 * 					<where>
+	 * 						<if test="조건">AND id=#{id}</if>
+	 * 						<if test="조건">AND pwd=#{pwd}</if>
+	 * 					</where>
+	 * 				=> <if>
+	 * 				   <if test="id!=null"> id==''
+	 * 										id==null
+	 * 					=> 단일 조건문
+	 * 				=> <choose> : 다중 조건문
+	 * 					<when test=""></when>
+	 * 					<when test=""></when>
+	 * 					<otherwise></otherwise>
+	 * 					</choose>
+	 * 
+	 * 				
+	 * 			
+	 */
+	/*
+	 * <select id="recipeFindData" resultType="RecipeVO" parameterType="hashmap">
+		SELECT no,title,poster,chef,hit,likecount,replycount,num
+		FROM (SELECT no,title,poster,chef,hit,likecount,replycount,rownum as num
+		FROM (SELECT + INDEX_ASC(recipe recipe_fno_pk)no,title,poster,chef,hit,likecount,replycount
+		FROM recipe
+			<bind name="likes" value="'%'+ss+'%'">
+			<trim prefix="WHERE (" suffix=")" prefixOverrides="OR">
+				<foreach collection="findArr" item="type">
+					<trim prefix="OR">
+						<choose>
+							<when test="type=='T'.toString()">
+								title Like #{likes}
+							</when>
+							<when test="type=='C'.toString()">
+								chef Like #{likes}
+							</when>
+						</choose>
+					</trim>
+				</foreach>
+			</trim>
+		))
+		WHERE num BETWEEN #{start} AND #{end}
+	</select>
+	 */
+	public static List<RecipeVO> recipeFindData(Map map)
+	{
+		SqlSession session=ssf.openSession();
+		List<RecipeVO> list=session.selectList("recipeFindData",map);
+		session.close();
+		return list;
+	}
+	/*
+	 * <select id="recipeChefMakeData" resultType="RecipeVO" parameterType="hashmap">
+	  	SELECT no,title,poster,chef,hit,likecount,replycount,num
+	  	FROM (SELECT no,title,poster,chef,hit,likecount,replycount,rownum as num
+	  	FROM (SELECT + INDEX_ASC(recipe recipe_no_pk)no,title,poster,chef,hit,likecount,replycount
+	  	FROM recipe WHERE chef=(SELECT chef FROM chef WHERE no=#{no})))
+	  	WHERE num BETWEEN #{start} AND #{end}
+	  </select>
+	  <select id="recipeChefMakeTotalPage" resultType="int" parameterType="int">
+	  	SELECT CEIL(COUNT(*)/12.0) FROM recipe
+	  	WHERE chef=(SELECT chef FROM chef WHERE no=#{no})
+	  </select>
+	 * 
+	 */
+	public static RecipeDetailVO recipeDetailData(int no)
+	{
+		SqlSession session=ssf.openSession();
+		session.update("recipeHitIncrement",no);
+		session.commit();
+		RecipeDetailVO vo=session.selectOne("recipeDetailData",no);
+		session.close();
+		return vo;
+	}
+	public static List<RecipeVO> recipeChefMakeData(Map map)
+	{
+		SqlSession session=ssf.openSession();
+		List<RecipeVO> list=session.selectList("recipeChefMakeData",map);
+		session.close();
+		return list;
+	}
+	
+	public static int recipeChefMakeTotalPage(int no)
+	{
+		SqlSession session=ssf.openSession();
+		int total=session.selectOne("recipeChefMakeTotalPage",no);
+		session.close();
+		return total;
+	}
 	
 }

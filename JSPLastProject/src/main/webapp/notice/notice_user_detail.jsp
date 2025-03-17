@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 <body>
 <div class="breadcumb-area" style="background-image: url(../img/bg-img/breadcumb.jpg);">
@@ -13,7 +12,7 @@
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="bradcumb-title text-center">
-                        <h2>관리자 페이지</h2>
+                        <h2>공시사항</h2>
                     </div>
                 </div>
             </div>
@@ -38,13 +37,35 @@
     <!-- ****** Archive Area Start ****** -->
     <section class="archive-area section_padding_80">
         <div class="container">
-            <div class="row">
-             <div class="col-sm-2">
-               <jsp:include page="admin_menu.jsp"></jsp:include>
-             </div>
-             <div class="col-sm-10">
-               <jsp:include page="${admin_jsp }"></jsp:include>
-             </div>
+            <div class="row" style="width:800px;margin:0px auto">
+              <table class="table">
+               <tr>
+                <th class="text-center" width=20%>공지</th>
+                <td class="text-center" width=30%>${vo.types }</td>
+                <th class="text-center" width=20%>작성일</th>
+                <td class="text-center" width=30%>${vo.dbday }</td>
+               </tr>
+               <tr>
+                <th class="text-center" width=20%>이름</th>
+                <td class="text-center" width=30%>${vo.name }</td>
+                <th class="text-center" width=20%>조회수</th>
+                <td class="text-center" width=30%>${vo.hit }</td>
+               </tr>
+               <tr>
+                <th class="text-center" width=20%>제목</th>
+                <td colspan="3">${vo.subject }</td>
+               </tr>
+               <tr>
+                <td colspan="4" class="text-left"
+                  valign="top" height="200"><pre style="white-space:pre-wrap;border:none;background-color: white">${vo.content }</pre></td>
+               </tr>
+               <tr>
+                <td colspan="4" class="text-right">
+                 <a href="../notice/notice_user_list.do" class="btn btn-warning btn-xs">목록</a>
+                </td>
+               </tr>
+               
+              </table>
             </div>
          </div>
     </section>
