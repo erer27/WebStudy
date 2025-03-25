@@ -9,19 +9,100 @@
 <link rel="stylesheet" href="../food/map.css">
 <style type="text/css">
 a.updates{
-	cursor: pointer;
+  cursor: pointer;
+}
+#likeBtnIcon{
+  cursor: pointer;
 }
 </style>
+
 <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=72fa81817487692b6dc093004af97650&libraries=services"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript">
+/*
+ *    CREATE TABLE all_like(
+		   lno NUMBER,
+		   id VARCHAR2(20),
+		   rno NUMBER,
+		   type NUMBER,
+		   CONSTRAINT al_lno_pk PRIMARY KEY(lno),
+		   CONSTRAINT al_id_fk FOREIGN KEY(id)
+		   REFERENCES project_member(id)
+		);
+		
+		CREATE SEQUENCE al_lno_seq
+		   START WITH 1
+		   INCREMENT BY 1
+		   NOCACHE
+		   NOCYCLE
+ */
 let bClick=false
+let likeCheck=false
+let rno=${param.fno}
+let id='${sessionScope.id}'
 $(function(){
+	if (id.length > 0)
+	{
+		$.ajax({
+	        type: 'post',
+	        url: '../like/likeCheck.do',
+	        data: {
+	            'rno': rno,
+	            'type': 1
+	        },
+	        success: function(result) {
+	            if (result === 'OK') {
+	                likeCheck = true
+	                $('#likeBtnIcon').attr('src', 'fullheart.png')
+	            } else {
+	                likeCheck = false
+	                $('#likeBtnIcon').attr('src', 'heart.png')
+	            }
+	        }
+	    })
+	}
+	$('#likeBtnIcon').click(function() {
+		if(likeCheck===true){
+			$.ajax({
+				type:'post',
+				url:'../like/likeOff.do',
+				data:{
+					'rno':rno,
+					'type':1
+				},
+				success:function(result){
+					if(result>=0){
+						likeCheck=false
+						$('#likeBtnIcon').attr('src', 'heart.png')
+						$('#likeCount').text(result)
+					}
+				}
+			})
+		}
+		else{
+			$.ajax({
+				type:'post',
+				url:'../like/likeOn.do',
+				data:{
+					'rno':rno,
+					'type':1
+				},
+				success:function(result){
+					if(result>=0){
+						likeCheck=true
+						$('#likeBtnIcon').attr('src', 'fullheart.png')
+						$('#likeCount').text(result)
+					}
+				}
+			})
+		}
+	})
+
 	$('.updates').click(function(){
 		let rno=$(this).attr("data-rno")
 		$('.ups').hide()
 		$(".updates").text("수정")
-		if(bClick==false)
+		if(bClick===false)
 		{
 			$(this).text("취소")
 			$('#up'+rno).show()
@@ -102,7 +183,7 @@ $(function(){
           </div>
          </td>
          <td colspan="2">
-           <h3>${vo.name }&nbsp;<span style="color: orange;">${vo.score }</span></h3>
+           <h3 data-id="${sessionScope.id }" id="id">${vo.name }&nbsp;<span style="color: orange;">${vo.score }</span></h3>
          </td>
        </tr>
        <tr>
@@ -141,16 +222,19 @@ $(function(){
         <tr>
          <td class="text-right">
           <c:if test="${sessionScope.id!=null }">
-          <a href="#" 
-             class="btn btn-sm btn-success">좋아요</a>
-	          <c:if test="${rcount==0 }">
-	          <a href="../jjim/jjim_insert.do?fno=${vo.fno }&type=1" 
-	             class="btn btn-sm btn-info">찜하기</a>
-	          </c:if>
-	          <c:if test="${rcount!=0 }">
-	          <span
-	             class="btn btn-sm btn-default">찜하기</span>
-	          </c:if>
+            <!-- <button id="likeBtn">-->
+			<img src="../food/heart.png" id="likeBtnIcon" style="width:35px;height: 35px">
+			<span id="likeCount">&nbsp;&nbsp;&nbsp;${vo.likecount }
+			</span>
+			<!-- </button>--> 
+	        <c:if test="${jCount==0 }">
+	          <a href="../jjim/jjim_insert.do?rno=${vo.fno }&type=1" 
+	             class="btn btn-sm btn-outline-info">찜하기</a>
+	        </c:if>
+	        <c:if test="${jCount!=0 }">
+	          <span 
+	             class="btn btn-sm btn-outline-danger">찜하기</span>
+	        </c:if>
           <a href="#" 
              class="btn btn-sm btn-danger">예약하기</a>
           </c:if>
@@ -428,8 +512,11 @@ $(function(){
                                                      <a href="../reply/reply_delete.do?cno=${rvo.cno }&rno=${rvo.rno}&type=1" class="active">삭제</a>
                                                    </c:if>
                                                 </c:if>
+                                                
                                                 <div class="comment-form ups" style="display:none" id="up${rvo.cno }">
+                                  
 				                                    <form action="../reply/reply_update.do" method="post">
+				                                        
 				                                        <div class="form-group">
 				                                            <textarea name="msg" id="msg" cols="50" rows="3" placeholder="Message" style="float: left" required>${rvo.msg }</textarea>
 				                                            <input type=hidden name="type" value="1">
@@ -437,6 +524,7 @@ $(function(){
 				                                            <input type=hidden name="cno" value="${rvo.cno }">
 				                                            <button type="submit" class="btn btn-primary" style="width:100px;height: 85px;float: left">댓글수정</button>
 				                                        </div>
+				                                        
 				                                    </form>
 				                                </div>
                                             </div>

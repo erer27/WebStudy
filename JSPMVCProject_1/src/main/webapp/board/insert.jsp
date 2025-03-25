@@ -63,15 +63,5 @@
 	
 <!-- Include stylesheet -->
 
-<!-- Create the editor container -->
-<div id="editor">
-  <p>Hello World!</p>
-  <p>Some initial <strong>bold</strong> text</p>
-  <p><br /></p>
-</div>
-
-<button id="test">test</button>
-<script type="text/javascript" src="board/quilTest.js?v=<%=System.currentTimeMillis() %>"></script>
-
 </body>
 </html>

@@ -22,4 +22,9 @@
 		FROM project_member
 		WHERE id=#{id}
 	</select>
+	
+	<select id="memberInfoData" resultType="MemberVO" parameterType="string">
+		SELECT * FROM project_member
+		WHERE id=#{id}
+	</select>
 </mapper>
